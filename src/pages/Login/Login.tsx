@@ -11,7 +11,7 @@ import {
   resetUser,
 } from "../../redux/states/User/userSlice";
 import runners from "../../assets/images/runners.jpeg";
-import queryString from "query-string";
+// import queryString from "query-string";
 import EmailLogin from "./components/EmailLogin";
 import axios from "axios";
 
