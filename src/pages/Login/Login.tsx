@@ -45,7 +45,7 @@ const Login: React.FC = () => {
 
   const onContinueLogin = () => sethandleFormUser(!handleFormUser);
 
-  console.log("handleFormUser", handleFormUser);
+  // console.log("handleFormUser", handleFormUser);
 
   const [isReadyForInstall, setIsReadyForInstall] = useState(false);
 
