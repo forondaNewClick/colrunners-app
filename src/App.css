@@ -1,9 +1,9 @@
-#root {
+/* #root {
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
-}
+} */
 
 .logo {
   height: 6em;
@@ -39,4 +39,20 @@
 
 .read-the-docs {
   color: #888;
+}
+
+body {
+  background-color: #fff;
+}
+
+.navbar-nav {
+  margin-left: 5vw;
+}
+
+
+@media (min-width: 576px) {
+  .navbar-expand-sm .navbar-nav .nav-link {
+      padding-right: 2.5rem !important;
+      padding-left: 2.5rem !important;
+  }
 }

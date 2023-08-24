@@ -1,31 +1,43 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
+import { lazy, Suspense } from "react";
+import { Provider } from "react-redux";
+import { BrowserRouter, Navigate, Route } from "react-router-dom";
 import "./App.css";
+import { AuthGuard, RoleGuard } from "./guards";
+import { PrivateRoutes, PublicRoutes, Roles } from "./models";
+import store from "./redux/store";
+import { RoutesWithNotFound } from "./utilities";
+import { Logout } from "./components/Logout";
+
+const Login = lazy(() => import("./pages/Login/Login"));
+const Private = lazy(() => import("./pages/Private/Private"));
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
-    <>
-      <div>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    // <div className="App">
+    <Suspense fallback={<>Cargando</>}>
+      <Provider store={store}>
+        <BrowserRouter>
+          <Logout />
+          <RoutesWithNotFound>
+            <Route path="/" element={<Navigate to={PrivateRoutes.PRIVATE} />} />
+            <Route path={PublicRoutes.LOGIN} element={<Login />} />
+            <Route element={<AuthGuard privateValidation={true} />}>
+              <Route
+                path={`${PrivateRoutes.PRIVATE}/*`}
+                element={<Private />}
+              />
+            </Route>
+            <Route element={<RoleGuard rol={Roles.ADMIN} />}>
+              <Route path={PrivateRoutes.DASHBOARD} element={<Private />} />
+            </Route>
+            <Route element={<RoleGuard rol={Roles.ADMIN} />}>
+              <Route path={PrivateRoutes.PROFILE} element={<Private />} />
+            </Route>
+          </RoutesWithNotFound>
+        </BrowserRouter>
+      </Provider>
+    </Suspense>
+    // </div>
   );
 }
 
